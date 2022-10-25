@@ -227,7 +227,7 @@ define( 'DB_PASSWORD', '7qV2@V$j5A4$bS42wy' );
 
 There was another directory on port 8088 called ```/protected/``` which was password-protected with HTTP Basic Authentication. However, the credentials didn't work here. This directory becomes important later though.
 
-Lastly, I investigated the web server on port 7080 and found a WebAdmin login for OoenLiteSpeed.
+Lastly, I investigated the web server on port 7080 and found a WebAdmin login for OpenLiteSpeed.
 
 ![image](https://user-images.githubusercontent.com/45502375/197644049-66e3c936-8f57-4cc1-b94b-779a10fdd867.png)
 
